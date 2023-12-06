@@ -41,5 +41,4 @@ func main() {
 			"message": "Hello World!",
 		})
 	})
-  func main() {
 }
