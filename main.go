@@ -1,15 +1,10 @@
 package main
 
 import (
-	"net/http"
-	"time"
-
 	"github.com/gin-gonic/gin"
-	"github.com/rs/xid"
 )
 
 type Recipe struct {
-	ID            string    `json:"id"`
 	Name          string    `json:"name"`
 	Tags          []string  `json:"tags"`
 	Ingredients   []string  `json:"ingredients"`
@@ -36,10 +31,15 @@ func NewRecipe(c *gin.Context) {
 	recipe.PublishesdAtt = time.Now()
 	recipes = append(recipes, recipe)
 	c.JSON(http.StatusOK, recipe)
+	PublishesdAtt time.Time `json:"publishedAt"`
 }
 
 func main() {
 	r := gin.Default()
-	r.POST("/recipes", NewRecipe)
-	r.Run()
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Hello World!",
+		})
+	})
+  func main() {
 }
