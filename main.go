@@ -42,4 +42,9 @@ func main() {
 	r := gin.Default()
   r.POST("/recipes", NewRecipe)
   r.Run()
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Hello World!",
+		})
+	})
 }
