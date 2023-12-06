@@ -32,7 +32,6 @@ func NewRecipe(c *gin.Context) {
 		})
 		return
 	}
-
 	recipe.ID = xid.New().String()
 	recipe.PublishesdAtt = time.Now()
 	recipes = append(recipes, recipe)
