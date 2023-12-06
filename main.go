@@ -1,15 +1,20 @@
 package main
 
 import (
+	"net/http"
+	"time"
+
 	"github.com/gin-gonic/gin"
+	"github.com/rs/xid"
 )
 
 type Recipe struct {
+	ID            string    `json:"id"`
 	Name          string    `json:"name"`
 	Tags          []string  `json:"tags"`
 	Ingredients   []string  `json:"ingredients"`
 	Instructions  []string  `json:"instructions"`
-	PublishesdAtt time.Time`json:"publishedAt"`
+	PublishesdAtt time.Time `json:"publishedAt"`
 }
 
 var recipes []Recipe
@@ -20,7 +25,7 @@ func init() {
 
 func NewRecipe(c *gin.Context) {
 	var recipe Recipe
-	// marshal incoming request to Recipe 
+	// marshal incoming request to Recipe
 	if err := c.ShouldBindJSON(&recipe); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -31,15 +36,10 @@ func NewRecipe(c *gin.Context) {
 	recipe.PublishesdAtt = time.Now()
 	recipes = append(recipes, recipe)
 	c.JSON(http.StatusOK, recipe)
-	PublishesdAtt time.Time `json:"publishedAt"`
 }
 
 func main() {
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "Hello World!",
-		})
-	})
-  func main() {
+  r.POST("/recipes", NewRecipe)
+  r.Run()
 }
