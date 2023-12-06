@@ -7,13 +7,12 @@ import (
 )
 
 type Recipe struct {
-  Name string `json:"name"`
-  Tags [] string `json:"tags"`
-  Ingredients [] string `json:"ingredients"`
-  Instructions [] string `json:"instructions"`
-  PublishesdAtt time.Time `json:"publishedAt"` 
-} 
-
+	Name          string    `json:"name"`
+	Tags          []string  `json:"tags"`
+	Ingredients   []string  `json:"ingredients"`
+	Instructions  []string  `json:"instructions"`
+	PublishesdAtt time.Time `json:"publishedAt"`
+}
 
 func main() {
 	r := gin.Default()
@@ -22,5 +21,5 @@ func main() {
 			"message": "Hello World!",
 		})
 	})
-  r.Run()
+	r.Run()
 }
