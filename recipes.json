@@ -1,0 +1,19 @@
+[
+  {
+    "id": "clojiguoakk97r2usjq0",
+    "name": "Burger",
+    "tags": ["meat", "vegi", "fast food", "snack"],
+    "ingredients": [
+      "meat",
+      "bread",
+      "onion",
+      "sauces",
+      "chesse",
+      "tomato",
+      "cucumber",
+      "lettuce"
+    ],
+    "instructions": ["first we do this", "then we do that"],
+    "publishedAt": "2023-12-07T11:17:23.745120095+08:00"
+  }
+]
