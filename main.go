@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +23,8 @@ var recipes []Recipe
 
 func init() {
 	recipes = make([]Recipe, 0)
+  file, _ := os.ReadFile("recipes.json")
+  _ = json.Unmarshal([]byte(file), &recipes)
 }
 
 func NewRecipe(c *gin.Context) {
@@ -38,8 +42,13 @@ func NewRecipe(c *gin.Context) {
 	c.JSON(http.StatusOK, recipe)
 }
 
+func ListRecipes(c *gin.Context) {
+  c.JSON(http.StatusOK, recipes)
+}
+
 func main() {
 	r := gin.Default()
   r.POST("/recipes", NewRecipe)
+  r.GET("/recipes", ListRecipes)
   r.Run()
 }
