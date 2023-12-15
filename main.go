@@ -77,10 +77,33 @@ func UpdateRecipes(c *gin.Context) {
 	c.JSON(http.StatusOK, recipe)
 }
 
+func DeleteRecipes(c *gin.Context) {
+	id := c.Param("id")
+	// intialize last index:
+	index := -1
+	for i := 0; i < len(recipes); i++ {
+		if recipes[i].ID == id {
+			index = i
+		}
+	}
+	if index == -1 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "recipes not found",
+		})
+		return
+	}
+	// remove recipes from slice
+  recipes = append(recipes[:index], recipes[index+1:]...)
+  c.JSON(http.StatusOK, gin.H{
+    "message" : "recipe deleted",
+  })
+}
+
 func main() {
 	r := gin.Default()
 	r.POST("/recipes", NewRecipe)
 	r.GET("/recipes", ListRecipes)
 	r.PUT("/recipes/:id", UpdateRecipes)
+	r.DELETE("/recipes/:id", DeleteRecipes)
 	r.Run()
 }
