@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -93,10 +94,35 @@ func DeleteRecipes(c *gin.Context) {
 		return
 	}
 	// remove recipes from slice
-  recipes = append(recipes[:index], recipes[index+1:]...)
-  c.JSON(http.StatusOK, gin.H{
-    "message" : "recipe deleted",
-  })
+	recipes = append(recipes[:index], recipes[index+1:]...)
+	c.JSON(http.StatusOK, gin.H{
+		"message": "recipe deleted",
+	})
+}
+
+func GetRecipes(c *gin.Context) {
+	tags := c.Query("tag")
+	list := make([]Recipe, 0)
+	for i := 0; i < len(recipes); i++ {
+		found := false
+		for _, t := range recipes[i].Tags {
+			if strings.EqualFold(t, tags) {
+				found = true
+			}
+		}
+
+		if !found {
+			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+				"message": "Tags not found",
+			})
+			return
+		}
+		if found {
+			list = append(list, recipes[i])
+		}
+
+	}
+	c.JSON(http.StatusOK, list)
 }
 
 func main() {
@@ -105,5 +131,6 @@ func main() {
 	r.GET("/recipes", ListRecipes)
 	r.PUT("/recipes/:id", UpdateRecipes)
 	r.DELETE("/recipes/:id", DeleteRecipes)
+	r.GET("/recipes/search", GetRecipes)
 	r.Run()
 }
